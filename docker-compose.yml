@@ -1,0 +1,24 @@
+services:
+  n8n:
+    image: n8nio/n8n
+    restart: always
+    ports:
+      - 5678:5678
+    environment:
+      - N8N_TRUST_PROXY=true
+      - N8N_PROXY_HOPS=1
+      - N8N_BASIC_AUTH_ACTIVE=true   # para proteger com senha (opcional)
+      - N8N_BASIC_AUTH_USER=admin    # seu usuário
+      - N8N_BASIC_AUTH_PASSWORD=senhafortE1 # sua senha
+    volumes:
+      - ./n8n_data:/home/node/.n8n   # persiste os dados
+    command: start --tunnel
+
+  qdrant:
+    image: qdrant/qdrant
+    restart: always
+    ports:
+      - 6333:6333
+    volumes:
+      - ./qdrant_data:/qdrant/storage
+
